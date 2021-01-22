@@ -1,8 +1,14 @@
 @charset 'utf-8';
 
+// Modify bluma variables
+
+
 // Import whats needed from Bulma
+
 @import "../node_modules/bulma/bulma.sass";
 
+// My styles
+
 #title-section {
-  background: linear-gradient($primary 0%, transparent 100%);
+  background: linear-gradient($primary 0%, transparent 95%);
 }
