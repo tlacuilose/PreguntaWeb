@@ -25,6 +25,40 @@
     <div class="container">
       <div class="columns">
         <div class="column">
+          <form class="content">
+            <div class="field">
+              <label class="label">Pregunta</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Escribe tu pregunta..."/>
+              </div>
+              <p class="help">Recuerda que las preguntas no son academicas, si no tecnicas.</p>
+            </div>
+            <div class="field">
+              <label class="label">Descripci&oacute;n</label>
+              <div class="control">
+                <textarea class="textarea" placeholder="Escribe una preve descripcion..."></textarea>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <div class="buttons is-right">
+                  <button class="button is-primary is-light">Cancelar</button>
+                  <button class="button is-primary">Enviar pregunta</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="column is-one-fifth">
+          <aside class="menu is-hidden-mobile">
+            <p class="menu-label">
+              Realiza una nueva pregunta
+            </p>
+          </aside>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
           <div class="tabs is-boxed">
             <ul>
               <li class="is-active">
@@ -57,63 +91,57 @@
       <div class="columns">
         <div class="column">
           <div class="content">
-            <div class="box mb-0">
-              <h1 class="title">
-                Pregunta
-              </h1>
-              <div class="block">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Summum ením bonum exposuit vacuitatem doloris; Tum ego: Non mehercule, inquam, soleo temere contra Stoicos, non quo illis admodum assentiar, sed pudore impedior; Quae contraria sunt his, malane? Manebit ergo amicitia tam diu, quam diu sequetur utilitas, et, si utilitas amicitiam constituet, tollet eadem.
-                </p>
-              </div>
-              <div class="subtitle is-6 has-text-right">
-                Preguntado por: nombre largo despues de este
-              </div>
-              <div class="buttons is-right">
-                <button class="button is-primary is-light level-item">Me sirvio</button>
-                <button class="button is-primary level-item">Responder</button>
-              </div>
-            </div>
-           <div class="content has-text-right mb-5">
-              <button class="button is-text">Reportar</button>
-            </div>
-          </div>
-          <article class="media">
-            <div class="media-content">
-              <div class="content">
-                <h1 class="title">Pregunta</h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Summum ením bonum exposuit vacuitatem doloris; Tum ego: Non mehercule, inquam, soleo temere contra Stoicos, non quo illis admodum assentiar, sed pudore impedior; Quae contraria sunt his, malane? Manebit ergo amicitia tam diu, quam diu sequetur utilitas, et, si utilitas amicitiam constituet, tollet eadem.
-                </p>
-                <div class="content has-text-right">
-                  <small><a>Reportar</a> · Preguntado por Maria Jimenez Lozoya · 12/12/2020</small>
+            <article class="media box">
+              <div class="media-content">
+                <div class="content is-medium">
+                  <h1 class="title is-3">Pregunta</h1>
+                  <p class="has-text-justified">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Summum ením bonum exposuit vacuitatem doloris; Tum ego: Non mehercule, inquam, soleo temere contra Stoicos, non quo illis admodum assentiar, sed pudore impedior; Quae contraria sunt his, malane? Manebit ergo amicitia tam diu, quam diu sequetur utilitas, et, si utilitas amicitiam constituet, tollet eadem.
+                  </p>
+                  <small><a>Reportar</a> · Preguntada en 12/12/2020 · <a>Me sirvio</a></small>
+                </div>
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p>No se ha respondido</p>
+                    </div>
+                  </div>
+                </article>
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p class="has-text-justified">
+                        Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
+                        <br>
+                        <small><a>Reportar</a> · Respondida en 12/12/2021 · <a>Me sirvio</a></small>
+                      </p>
+                    </div>
+                  </div>
+                </article>
+                <div class="level mt-4">
+                  <button class="button is-text level-left">M&aacute;s respuestas (20)</button>
+                  <button class="button is-primary level-right">Responder</button>
                 </div>
               </div>
-              <article class="media">
-                <div class="media-content">
-                  <div class="content">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Summum ením bonum exposuit vacuitatem doloris; Tum ego: Non mehercule, inquam, soleo temere contra Stoicos, non quo illis admodum assentiar, sed pudore impedior; Quae contraria sunt his, malane? Manebit ergo amicitia tam diu, quam diu sequetur utilitas, et, si utilitas amicitiam constituet, tollet eadem.
-                    </p>
+            </article>
+            <article class="media">
+              <div class="media-content">
+                <div class="field">
+                  <p class="control">
+                    <textarea class="textarea" placeholder="Agrega una respuesta"></textarea>
+                  </p>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <div class="buttons is-right">
+                      <button class="button is-primary is-light">Cancelar</button>
+                      <button class="button is-primary">Enviar respuesta</button>
+                    </div>
                   </div>
                 </div>
-              </article>
-            </div>
-          </article>
-          <article class="media">
-            <div class="media-content">
-              <div class="field">
-                <p class="control">
-                  <textarea class="textarea" placeholder="Agrega una respuesta"></textarea>
-                </p>
               </div>
-              <div class="field">
-                <p class="control">
-                  <button class="button is-primary is-right">Responder</button>
-                </p>
-              </div>
-            </div>
-          </article>
+            </article>
+          </div>
         </div>
         <div class="column is-one-fifth">
           <aside class="menu">
@@ -122,12 +150,12 @@
             </p>
             <ul class="menu-list">
               <li>
-                <div class="block">
+                <p>
                   Aqui podras encontrar preguntas hechas y resueltas por la comunidad.
                   Si quieres puedes hacer una nueva pregunta dando click en el boton de Añadir pregunta.
                   Recuerda que este no es un lugar para hacer preguntas educativas, sino para 
                   resolver dudas que surgan del aprendizaje en casa.
-                </div>
+                </p>
               </li>
             </ul>
             <p class="menu-label">
