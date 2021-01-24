@@ -19,8 +19,8 @@
           <div class="field">
             <div class="control">
               <div class="buttons is-right">
-                <button class="button is-primary is-light">Cancelar</button>
-                <button class="button is-primary">Enviar pregunta</button>
+                <button class="button is-primary">Cancelar</button>
+                <button class="button is-link">Enviar pregunta</button>
               </div>
             </div>
           </div>

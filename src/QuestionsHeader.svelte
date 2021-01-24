@@ -1,19 +1,33 @@
+<script lang="typescript">
+  export let questions: string[];
+
+  let isShowingAnswered: boolean = true;
+
+  function showAnswered() {
+    isShowingAnswered = true;
+  }
+
+  function hideAnswered() {
+    isShowingAnswered = false;
+  }
+</script>
+  
 <div class="columns">
   <div class="column">
     <div class="tabs is-boxed">
       <ul>
-        <li class="is-active">
-          <a class="has-text-primary-dark">
+        <li class:is-active={isShowingAnswered}>
+          <a on:click={showAnswered}>
             <span>
               Respondidas
             </span>
-            <span class="tag is-primary is-light is-rounded ml-2">
-              5
+            <span class="tag is-primary is-rounded ml-2">
+              {questions.length}
             </span>
           </a>
         </li>
-        <li>
-          <a>
+        <li class:is-active={!isShowingAnswered}>
+          <a on:click={hideAnswered}>
             <span>
               No respondidas
             </span>
@@ -26,6 +40,6 @@
     </div>
   </div>
   <div class="column is-one-fifth has-text-centered">
-      <button class="button is-primary is-outlined">Añadir pregunta</button>
+      <button class="button is-link is-outlined">Añadir pregunta</button>
   </div>
 </div>

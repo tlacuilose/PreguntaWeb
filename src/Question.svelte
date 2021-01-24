@@ -16,7 +16,7 @@
     <Answer></Answer>
     <div class="level mt-4">
       <button class="button is-text level-left">M&aacute;s respuestas (20)</button>
-      <button class="button is-primary level-right">Responder</button>
+      <button class="button is-link level-right">Responder</button>
     </div>
   </div>
 </article>

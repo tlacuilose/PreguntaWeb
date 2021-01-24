@@ -8,8 +8,8 @@
     <div class="field">
       <div class="control">
         <div class="buttons is-right">
-          <button class="button is-primary is-light">Cancelar</button>
-          <button class="button is-primary">Enviar respuesta</button>
+          <button class="button is-primary">Cancelar</button>
+          <button class="button is-link">Enviar respuesta</button>
         </div>
       </div>
     </div>

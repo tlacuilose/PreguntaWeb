@@ -3,6 +3,8 @@
   import NewQuestion from './NewQuestion.svelte';
   import QuestionsHeader from './QuestionsHeader.svelte';
   import Questions from './Questions.svelte';
+
+  let questions: string[] = ['Pregunta uno', 'pregunta dos', 'pregunta trws'];
 </script>
 
 <svelte:head>
@@ -14,7 +16,7 @@
   <NewQuestion></NewQuestion>
   <section class="section pt-0">
     <div class="container">
-      <QuestionsHeader></QuestionsHeader>
+      <QuestionsHeader questions={questions}></QuestionsHeader>
       <Questions></Questions>
     </div>
   </section>
