@@ -1,7 +1,10 @@
 <script lang="typescript">
-  export let questions: string[];
+  import NewQuestion from './NewQuestion.svelte';
+  export let numAns: number;
+  export let numUnans: number;
+  export let isShowingAnswered: boolean;
 
-  let isShowingAnswered: boolean = true;
+  let isShowingNewQuestion: boolean = false;
 
   function showAnswered() {
     isShowingAnswered = true;
@@ -14,6 +17,9 @@
   
 <div class="columns">
   <div class="column">
+    {#if isShowingNewQuestion}
+      <NewQuestion bind:isShown={isShowingNewQuestion}></NewQuestion>
+    {/if}
     <div class="tabs is-boxed">
       <ul>
         <li class:is-active={isShowingAnswered}>
@@ -21,8 +27,8 @@
             <span>
               Respondidas
             </span>
-            <span class="tag is-primary is-rounded ml-2">
-              {questions.length}
+            <span class="tag {isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
+              {numAns}
             </span>
           </a>
         </li>
@@ -31,8 +37,8 @@
             <span>
               No respondidas
             </span>
-            <span class="tag is-light is-rounded ml-2">
-              0
+            <span class="tag {!isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
+              {numUnans}
             </span>
           </a>
         </li>
@@ -40,6 +46,6 @@
     </div>
   </div>
   <div class="column is-one-fifth has-text-centered">
-      <button class="button is-link is-outlined">Añadir pregunta</button>
+    <button class="button is-link is-outlined" on:click={() => isShowingNewQuestion = true} disabled={isShowingNewQuestion}>Añadir pregunta</button>
   </div>
 </div>
