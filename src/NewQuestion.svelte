@@ -1,8 +1,9 @@
 <script lang="typescript">
+  import { slide } from 'svelte/transition';
   export let isShown: boolean;
 </script>
   
-<form class="content">
+<div class="content" transition:slide>
   <div class="field">
     <label class="label">Pregunta</label>
     <div class="control">
@@ -24,4 +25,4 @@
       </div>
     </div>
   </div>
-</form>
+</div>

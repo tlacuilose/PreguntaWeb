@@ -1,14 +1,17 @@
 <script lang="typescript">
+  import { fade } from 'svelte/transition';
+  import { quartIn } from 'svelte/easing';
   import Answer from './Answer.svelte';
   import NoAnswers from './NoAnswers.svelte';
   import NewAnswer from './NewAnswer.svelte';
 
   import type { QuestionType } from './models';
+  import type { svg_element } from 'svelte/internal';
 
   export let question: QuestionType;
 
   const maxShown: number = 2; // Two answers shown;
-  const limitMax: number = 10; // Up to 10 answers;
+  const limitMax: number = 6; // Up to 10 answers;
   let shownAns: number = maxShown;
   let showsNew: boolean = false;
 
@@ -23,7 +26,7 @@
 
 </script>
 
-<article class="media box">
+<article class="media box" transition:fade={{duration: 300, easing: quartIn}}>
   <div class="media-content">
     <div class="content is-medium">
       <h1 class="title is-3">{question.question}</h1>
@@ -41,7 +44,7 @@
     {/if}
     <div class="level mt-4">
       {#if question.answers && question.answers.length > shownAns && shownAns == maxShown}
-        <button class="button is-text level-left" on:click={showMoreAns}>M&aacute;s respuestas ({question.answers.length - maxShown})</button>
+        <button class="button is-text level-left" on:click={showMoreAns}>M&aacute;s respuestas ({question.answers.length < limitMax ? question.answers.length - maxShown : limitMax - maxShown})</button>
       {:else if shownAns > maxShown}
         <button class="button is-text level-left" on:click={hideMoreAns}>Mostrar menos</button>
       {:else}
