@@ -1,4 +1,110 @@
 <script lang="typescript">
+  import Title from './Title.svelte';
+  import NewQuestion from './NewQuestion.svelte';
+  import QuestionsHeader from './QuestionsHeader.svelte';
+  import Questions from './Questions.svelte';
+
+  import type { QuestionType, AnswerType } from './models';
+
+  let isShowingAnswered: boolean = true;
+
+  let questions: QuestionType[] = [
+    {
+      date: '12/02/2020',
+      question: 'Cual es la pregunta?',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ille enim occurrentia nescio quae comminiscebatur; Ad eos igitur converte te, quaeso. Non quam nostram quidem, inquit Pomponius iocans; Sedulo, inquam, faciam. Quamquam id quidem licebit iis existimare, qui legerint. Septem autem illi non suo, sed populorum suffragio omnium nominati sunt.',
+      answers: [
+        {
+          date: '03/04/2020',
+          answer: 'Stuprata per vim Lucretia a regis filio testata civis se ipsa interemit. Mihi quidem Antiochum, quem audis, satis belle videris attendere. Id mihi magnum videtur.'
+        }, {
+          date: '12/02/2020',
+          answer: 'Quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? An haec ab eo non dicuntur? Ita graviter et severe voluptatem secrevit a bono.'
+        }, {
+          date: '03/02/2040',
+          answer: 'Negat esse eam, inquit, propter se expetendam. Quis animo aequo videt eum, quem inpure ac flagitiose putet vivere?'
+        }, {
+          date: '12/02/2021',
+          answer: 'Haec quo modo conveniant, non sane intellego. Esse enim quam vellet iniquus iustus poterat inpune. An vero displicuit ea, quae tributa est animi virtutibus tanta praestantia?'
+        }
+      ]
+    }, {
+      date: '12/04/2021',
+      question: 'Are we here just to eat?',
+      description: 'Idemque diviserunt naturam hominis in animum et corpus. Et non ex maxima parte de tota iudicabis? Si mala non sunt, iacet omnis ratio Peripateticorum. Quid, quod res alia tota est? Quae duo sunt, unum fa',
+      answers: [
+        {
+          date: '03/02/2021',
+          answer: 'An vero, inquit, quisquam potest probare, quod perceptfum, quod. Idemne, quod iucunde? Ac ne plura complectar-sunt enim innumerabilia-, bene laudata virtus voluptatis ad'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/02/2021',
+          answer: 'Sed emolumenta communia esse dicuntur, recte autem facta et peccata non habentur communia. Si enim ad populum me vocas, eum. Atque hoc loco similitudines eas, quibus illi uti solent'
+        }
+      ]
+    }, {
+      date: '03/04/2021',
+      question: 'This questions has answers.',
+      description: '',
+      answers: [
+        {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/04/2021',
+          answer: ' Quamquam non negatis nos intellegere quid sit voluptas, sed quid ille dicat. Haec quo modo conveniant, non sane intellego. Inde sermone vario sex illa a Dipylo stadia confecimus. Ait enim se, si uratur, Quam hoc suave! dicturum. At iam decimum annum in spelunca iacet.'
+        }, {
+          date: '12/02/2021',
+          answer: 'Sed emolumenta communia esse dicuntur, recte autem facta et peccata non habentur communia. Si enim ad populum me vocas, eum. Atque hoc loco similitudines eas, quibus illi uti solent'
+        }
+      ]
+    }
+  ];
+  
+  let unquestions: QuestionType[] = [
+    {
+      date: '12/02/2020',
+      question: 'Esta no respondida o si?',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ille enim occurrentia nescio quae comminiscebatur; Ad eos igitur converte te, quaeso. Non quam nostram quidem, inquit Pomponius iocans; Sedulo, inquam, faciam. Quamquam id quidem licebit iis existimare, qui legerint. Septem autem illi non suo, sed populorum suffragio omnium nominati sunt.',
+    }, {
+      date: '12/04/2021',
+      question: 'Are we here just to eat no resp?',
+      description: 'Idemque diviserunt naturam hominis in animum et corpus. Et non ex maxima parte de tota iudicabis? Si mala non sunt, iacet omnis ratio Peripateticorum. Quid, quod res alia tota est? Quae duo sunt, unum fa',
+    }, {
+      date: '03/04/2021',
+      question: 'This questions has non answers.',
+      description: ''
+    }
+  ];
 </script>
 
 <svelte:head>
@@ -6,175 +112,15 @@
 </svelte:head>
 
 <main>
-  <section class="section is-medium" id="title-section">
-    <form class="container is-max-desktop mb-4">
-      <div class="field is-expanded has-addons">
-        <div class="control is-expanded">
-          <input class="input is-medium is-primary" type="text" placeholder="¿Qué pregunta tienes?"/>
-        </div>
-        <div class="control">
-          <a class="button is-medium is-primary">Buscar</a>
-        </div>
-      </div>
-    </form>
-    <div class="container has-text-centered">
-      <h1 class="title is-4 has-text-primary-dark">Ayuda estudia en casa</h1>
-    </div>
-  </section>
+  <Title></Title>
   <section class="section pt-0">
     <div class="container">
-      <div class="columns">
-        <div class="column">
-          <form class="content">
-            <div class="field">
-              <label class="label">Pregunta</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Escribe tu pregunta..."/>
-              </div>
-              <p class="help">Recuerda que las preguntas no son academicas, si no tecnicas.</p>
-            </div>
-            <div class="field">
-              <label class="label">Descripci&oacute;n</label>
-              <div class="control">
-                <textarea class="textarea" placeholder="Escribe una preve descripcion..."></textarea>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <div class="buttons is-right">
-                  <button class="button is-primary is-light">Cancelar</button>
-                  <button class="button is-primary">Enviar pregunta</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="column is-one-fifth">
-          <aside class="menu is-hidden-mobile">
-            <p class="menu-label">
-              Realiza una nueva pregunta
-            </p>
-          </aside>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="tabs is-boxed">
-            <ul>
-              <li class="is-active">
-                <a class="has-text-primary-dark">
-                  <span>
-                    Respondidas
-                  </span>
-                  <span class="tag is-primary is-light is-rounded ml-2">
-                    5
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span>
-                    No respondidas
-                  </span>
-                  <span class="tag is-light is-rounded ml-2">
-                    0
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="column is-one-fifth has-text-centered">
-            <button class="button is-primary is-outlined">Añadir pregunta</button>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="content">
-            <article class="media box">
-              <div class="media-content">
-                <div class="content is-medium">
-                  <h1 class="title is-3">Pregunta</h1>
-                  <p class="has-text-justified">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Summum ením bonum exposuit vacuitatem doloris; Tum ego: Non mehercule, inquam, soleo temere contra Stoicos, non quo illis admodum assentiar, sed pudore impedior; Quae contraria sunt his, malane? Manebit ergo amicitia tam diu, quam diu sequetur utilitas, et, si utilitas amicitiam constituet, tollet eadem.
-                  </p>
-                  <small><a>Reportar</a> · Preguntada en 12/12/2020 · <a>Me sirvio</a></small>
-                </div>
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content">
-                      <p>No se ha respondido</p>
-                    </div>
-                  </div>
-                </article>
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content">
-                      <p class="has-text-justified">
-                        Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
-                        <br>
-                        <small><a>Reportar</a> · Respondida en 12/12/2021 · <a>Me sirvio</a></small>
-                      </p>
-                    </div>
-                  </div>
-                </article>
-                <div class="level mt-4">
-                  <button class="button is-text level-left">M&aacute;s respuestas (20)</button>
-                  <button class="button is-primary level-right">Responder</button>
-                </div>
-              </div>
-            </article>
-            <article class="media">
-              <div class="media-content">
-                <div class="field">
-                  <p class="control">
-                    <textarea class="textarea" placeholder="Agrega una respuesta"></textarea>
-                  </p>
-                </div>
-                <div class="field">
-                  <div class="control">
-                    <div class="buttons is-right">
-                      <button class="button is-primary is-light">Cancelar</button>
-                      <button class="button is-primary">Enviar respuesta</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="column is-one-fifth">
-          <aside class="menu">
-            <p class="menu-label">
-              ¿Para qué sirve?
-            </p>
-            <ul class="menu-list">
-              <li>
-                <p>
-                  Aqui podras encontrar preguntas hechas y resueltas por la comunidad.
-                  Si quieres puedes hacer una nueva pregunta dando click en el boton de Añadir pregunta.
-                  Recuerda que este no es un lugar para hacer preguntas educativas, sino para 
-                  resolver dudas que surgan del aprendizaje en casa.
-                </p>
-              </li>
-            </ul>
-            <p class="menu-label">
-              Contacto
-            </p>
-            <ul class="menu-list">
-              <li><a href="https://www.github.com">Colabora</a></li>
-              <li><a href="https://www.twitter.com">Contacto</a></li>
-            </ul>
-            <p class="menu-label">
-              Politicas
-            </p>
-            <ul class="menu-list">
-              <li><a>Terminos y condiciones</a></li>
-              <li><a>Politicas de privacidad</a></li>
-            </ul>
-          </aside>
-        </div>
-      </div>
+      <QuestionsHeader numAns={questions.length} numUnans={unquestions.length} bind:isShowingAnswered={isShowingAnswered}></QuestionsHeader>
+      {#if isShowingAnswered}
+        <Questions questions={questions}></Questions>
+      {:else}
+        <Questions questions={unquestions}></Questions>
+      {/if}
     </div>
   </section>
 </main>
