@@ -1,10 +1,8 @@
-<script lang="typescript">
+<script>
   import InfoMenu from './InfoMenu.svelte';
   import Question from './Question.svelte';
 
-  import type { QuestionType } from './models';
-
-  export let questions: QuestionType[];
+  export let questions;
 </script>
   
 <div class="columns">

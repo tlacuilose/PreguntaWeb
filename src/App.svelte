@@ -1,14 +1,12 @@
-<script lang="typescript">
+<script>
   import Title from './Title.svelte';
   import NewQuestion from './NewQuestion.svelte';
   import QuestionsHeader from './QuestionsHeader.svelte';
   import Questions from './Questions.svelte';
 
-  import type { QuestionType, AnswerType } from './models';
+  let isShowingAnswered = true;
 
-  let isShowingAnswered: boolean = true;
-
-  let questions: QuestionType[] = [
+  let questions = [
     {
       date: '12/02/2020',
       question: 'Cual es la pregunta?',
@@ -90,7 +88,7 @@
     }
   ];
   
-  let unquestions: QuestionType[] = [
+  let unquestions = [
     {
       date: '12/02/2020',
       question: 'Esta no respondida o si?',

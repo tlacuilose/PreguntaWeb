@@ -1,6 +1,6 @@
-<script lang="typescript">
+<script>
   import { slide } from 'svelte/transition';
-  export let isShown: boolean;
+  export let isShown;
 </script>
   
 <div class="content" transition:slide>
