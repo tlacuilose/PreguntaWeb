@@ -1,20 +1,41 @@
-<script lang="typescript">
+<script>
   import { slide } from 'svelte/transition';
-  export let isShown: boolean;
+
+  import { fs } from './firebase';
+
+  export let isShown;
+
+  let question = {
+    question: "",
+    description: ""
+  };
+
+  async function addQuestion() {
+    await fs.collection('questions').doc().set({
+      ...question,
+      createdAt: Date.now()
+    });
+  }
+
+  function handleSubmit() {
+    addQuestion();
+    question = {question: '', description: ''};
+    isShown = false;
+  }
 </script>
   
-<div class="content" transition:slide>
+<form class="content" transition:slide on:submit|preventDefault={handleSubmit}>
   <div class="field">
     <label class="label">Pregunta</label>
     <div class="control">
-      <input class="input" type="text" placeholder="Escribe tu pregunta..."/>
+      <input class="input" type="text" placeholder="Escribe tu pregunta..." bind:value={question.question}/>
     </div>
     <p class="help">Recuerda que las preguntas no son academicas, si no tecnicas.</p>
   </div>
   <div class="field">
     <label class="label">Descripci&oacute;n</label>
     <div class="control">
-      <textarea class="textarea" placeholder="Escribe una preve descripcion..."></textarea>
+      <textarea class="textarea" placeholder="Escribe una preve descripcion..." bind:value={question.description}></textarea>
     </div>
   </div>
   <div class="field">
@@ -25,4 +46,4 @@
       </div>
     </div>
   </div>
-</div>
+</form>

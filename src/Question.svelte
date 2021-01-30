@@ -1,19 +1,16 @@
-<script lang="typescript">
+<script>
   import { fade } from 'svelte/transition';
   import { quartIn } from 'svelte/easing';
   import Answer from './Answer.svelte';
   import NoAnswers from './NoAnswers.svelte';
   import NewAnswer from './NewAnswer.svelte';
 
-  import type { QuestionType } from './models';
-  import type { svg_element } from 'svelte/internal';
+  export let question;
 
-  export let question: QuestionType;
-
-  const maxShown: number = 2; // Two answers shown;
-  const limitMax: number = 6; // Up to 10 answers;
-  let shownAns: number = maxShown;
-  let showsNew: boolean = false;
+  const maxShown = 2; // Two answers shown;
+  const limitMax = 6; // Up to 10 answers;
+  let shownAns = maxShown;
+  let showsNew = false;
 
   function showMoreAns() {
     let amountAns = question.answers.length > limitMax ? limitMax : question.answers.length;

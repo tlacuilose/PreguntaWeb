@@ -1,10 +1,10 @@
-<script lang="typescript">
+<script>
   import NewQuestion from './NewQuestion.svelte';
-  export let numAns: number;
-  export let numUnans: number;
-  export let isShowingAnswered: boolean;
+  export let numAns;
+  export let numUnans;
+  export let isShowingAnswered;
 
-  let isShowingNewQuestion: boolean = false;
+  let isShowingNewQuestion;
 
   function showAnswered() {
     isShowingAnswered = true;

@@ -1,9 +1,8 @@
-<script lang="typescript">
+<script>
   import { slide } from 'svelte/transition';
   import { quartOut } from 'svelte/easing';
-  import type { AnswerType } from './models';
 
-  export let answer: AnswerType;
+  export let answer;
 </script>
   
 <article class="media" transition:slide={{duration: 300, easing: quartOut}}>
