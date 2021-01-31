@@ -38,6 +38,21 @@
     showsAns = false;
   }
 
+  function handleUseful() {
+    let one_hour = 60 * 60 * 1000;
+    if (Date.now() - question.usefulness.last_updated > one_hour) {
+      updateRanking();
+    }
+  }
+
+  async function updateRanking() {
+    await fs.collection('questions').doc(question.id).update({
+      usefulness: {
+        ranking: question.usefulness.ranking + 1,
+        last_updated: Date.now()
+      }
+    });
+  }
 </script>
 
 <article class="media box" transition:fade={{duration: 300, easing: quartIn}}>
@@ -47,11 +62,11 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a>Reportar</a> · Preguntada en  {readableDate} · <a>Me sirvio</a></small>
+      <small><a>Reportar</a> · Preguntada en  {readableDate} · <a on:click={handleUseful}>Me sirvio</a></small>
     </div>
     {#if answers && showsAns}
       {#each answers as answer}
-        <Answer answer={answer}></Answer>
+        <Answer question_id={question.id} answer={answer}></Answer>
       {/each}
     {/if}
     <div class="level mt-4">

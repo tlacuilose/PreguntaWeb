@@ -20,6 +20,10 @@
     await fs.collection('questions').doc(question.id).collection('answers').doc().set({
       ...answer,
       createdAt: Date.now(),
+      usefulness: {
+        ranking: 1,
+        last_updated: Date.now()
+      }
     });
   }
 

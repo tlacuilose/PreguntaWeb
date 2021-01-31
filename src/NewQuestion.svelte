@@ -14,7 +14,11 @@
     await fs.collection('questions').doc().set({
       ...question,
       createdAt: Date.now(),
-      times_ans: 0
+      times_ans: 0,
+      usefulness: {
+        ranking: 0,
+        last_updated: 0
+      }
     });
   }
 
