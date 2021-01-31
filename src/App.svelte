@@ -1,6 +1,5 @@
 <script>
   import Title from './Title.svelte';
-  import NewQuestion from './NewQuestion.svelte';
   import QuestionsHeader from './QuestionsHeader.svelte';
   import Questions from './Questions.svelte';
 
@@ -8,33 +7,28 @@
 
   let isShowingAnswered = true;
 
-  let questions = []
+  let answered = [];
 
-  fs.collection('questions').onSnapshot(querySnapshot => {
+  let unanswered = [];
+
+  fs.collection('questions').where('times_ans', '==', 0).onSnapshot(querySnapshot => {
     let docs = [];
     querySnapshot.forEach(doc => {
       docs.push({...doc.data(), id: doc.id});
     });
 
-    questions = [...docs];
-    console.log(questions);
+    unanswered = [...docs];
   });
-  
-  let unquestions = [
-    {
-      date: '12/02/2020',
-      question: 'Esta no respondida o si?',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ille enim occurrentia nescio quae comminiscebatur; Ad eos igitur converte te, quaeso. Non quam nostram quidem, inquit Pomponius iocans; Sedulo, inquam, faciam. Quamquam id quidem licebit iis existimare, qui legerint. Septem autem illi non suo, sed populorum suffragio omnium nominati sunt.',
-    }, {
-      date: '12/04/2021',
-      question: 'Are we here just to eat no resp?',
-      description: 'Idemque diviserunt naturam hominis in animum et corpus. Et non ex maxima parte de tota iudicabis? Si mala non sunt, iacet omnis ratio Peripateticorum. Quid, quod res alia tota est? Quae duo sunt, unum fa',
-    }, {
-      date: '03/04/2021',
-      question: 'This questions has non answers.',
-      description: ''
-    }
-  ];
+
+
+  fs.collection('questions').where('times_ans', '>', 0).onSnapshot(querySnapshot => {
+    let docs = [];
+    querySnapshot.forEach(doc => {
+      docs.push({...doc.data(), id: doc.id});
+    });
+
+    answered = [...docs];
+  });
 </script>
 
 <svelte:head>
@@ -45,11 +39,11 @@
   <Title></Title>
   <section class="section pt-0">
     <div class="container">
-      <QuestionsHeader numAns={questions.length} numUnans={unquestions.length} bind:isShowingAnswered={isShowingAnswered}></QuestionsHeader>
+      <QuestionsHeader numAns={answered.length} numUnans={unanswered.length} bind:isShowingAnswered={isShowingAnswered}></QuestionsHeader>
       {#if isShowingAnswered}
-        <Questions questions={questions}></Questions>
+        <Questions questions={answered}></Questions>
       {:else}
-        <Questions questions={unquestions}></Questions>
+        <Questions questions={unanswered}></Questions>
       {/if}
     </div>
   </section>

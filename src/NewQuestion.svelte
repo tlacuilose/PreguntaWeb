@@ -7,13 +7,14 @@
 
   let question = {
     question: "",
-    description: ""
+    description: "",
   };
 
   async function addQuestion() {
     await fs.collection('questions').doc().set({
       ...question,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      times_ans: 0
     });
   }
 
@@ -42,7 +43,7 @@
     <div class="control">
       <div class="buttons is-right">
         <button class="button is-primary" on:click={() => isShown = false}>Cancelar</button>
-        <button class="button is-link">Enviar pregunta</button>
+        <button type="submit" class="button is-link">Enviar pregunta</button>
       </div>
     </div>
   </div>
