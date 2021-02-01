@@ -10,6 +10,7 @@
 
   $: readableDate = formatDate(question.createdAt);
 
+  const limitShown = 10;
   var showsAns = false;
 
   var showsNewAns = false;
@@ -23,15 +24,20 @@
 
   function showAnswers() {
     showsAns = true;
-    fs.collection('questions').doc(question.id)
-      .collection('answers').onSnapshot(querySnapshot => {
-        let docs = [];
-        querySnapshot.forEach(doc => {
-          docs.push({...doc.data(), id: doc.id});
-        });
+    if (answers) {
+      fs.collection('questions').doc(question.id)
+        .collection('answers')
+        .orderBy('usefulness.ranking', 'desc')
+        .limit(limitShown)
+        .onSnapshot(querySnapshot => {
+          let docs = [];
+          querySnapshot.forEach(doc => {
+            docs.push({...doc.data(), id: doc.id});
+          });
 
-        answers = [...docs];
-    });
+          answers = [...docs];
+      });
+    }
   }
 
   function hideAnswers() {
