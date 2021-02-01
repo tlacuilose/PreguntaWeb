@@ -3,17 +3,17 @@
   import { quartIn } from 'svelte/easing';
   import Answer from './Answer.svelte';
   import NewAnswer from './NewAnswer.svelte';
+  import NewReport from './NewReport.svelte';
 
   import { fs } from './firebase';
+  import { showsNewReport, showsNewAns, reportItemID, reportItemType, reportItemLegend } from './stores';
 
   export let question;
 
   $: readableDate = formatDate(question.createdAt);
 
   const limitShown = 10;
-  var showsAns = false;
-
-  var showsNewAns = false;
+  let showsAns = false;
 
   let answers = [];
 
@@ -44,6 +44,19 @@
     showsAns = false;
   }
 
+  function showNewAns() {
+    showsNewAns.set(true);
+    showsNewReport.set(false);
+  }
+
+  function callNewReport() {
+    showsNewReport.set(true);
+    showsNewAns.set(false);
+    reportItemID.set(question.id);
+    reportItemType.set('question');
+    reportItemLegend.set('pregunta');
+  }
+
   function handleUseful() {
     let one_hour = 60 * 60 * 1000;
     if (Date.now() - question.usefulness.last_updated > one_hour) {
@@ -68,7 +81,7 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
+      <small><a on:click={callNewReport} disabled={$showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
     </div>
     {#if answers && showsAns}
       {#each answers as answer}
@@ -85,10 +98,13 @@
       {:else}
         <div class="level-left" disabled=true>Sin respuestas</div>
       {/if}
-      <button class="button is-link level-right" disabled={showsNewAns} on:click={() => showsNewAns = true}>Responder</button>
+      <button class="button is-link level-right" disabled={$showsNewAns} on:click={showNewAns}>Responder</button>
     </div>
   </div>
 </article>
-{#if showsNewAns}
-  <NewAnswer bind:isShown={showsNewAns} question={question}></NewAnswer>
+{#if $showsNewAns}
+  <NewAnswer bind:isShown={$showsNewAns} question={question}></NewAnswer>
+{/if}
+{#if $showsNewReport}
+  <NewReport></NewReport>
 {/if}
