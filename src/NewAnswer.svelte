@@ -13,13 +13,16 @@
 
   async function updateQuestion() {
     await fs.collection('questions').doc(question.id).update({
-      times_ans: question.times_ans + 1
+      times_ans: question.times_ans + 1,
+      answered: true
     });
   }
 
   async function updateNiche() {
-    await fs.collection('niches').doc('estudia-en-casa')
-      .update('answered', fieldValue.increment(1));
+    await fs.collection('niches').doc('estudia-en-casa').update({
+      'answered': fieldValue.increment(1),
+      'unanswered': fieldValue.increment(-1)
+    });
   }
   
   async function addAnswer() {

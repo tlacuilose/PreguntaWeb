@@ -7,43 +7,66 @@
   import { isShowingAnswered } from './stores';
   import { fs } from './firebase';
 
-  let ansRef = fs.collection('questions').where('times_ans', '>', 0);
-  let unansRef = fs.collection('questions').where('times_ans', '==', 0);
+  const pagUnit = 1;
+
+  let ansRef = fs.collection('questions').where('answered', '==', true);
+  let unansRef = fs.collection('questions').where('answered', '==', false);
 
   let answered = [];
   let sizeAns = 0;
-  let extra_ans = [];
+  let totalAns = 0;
+  let extraAns = [];
 
   let unanswered = [];
   let sizeUnans = 0;
-  let extra_unans = [];
+  let totalUnans = 0;
+  let extraUnans = [];
 
   fs.collection('niches').doc('estudia-en-casa').onSnapshot(docSnapshot => {
     let niche = docSnapshot.data();
-    sizeAns = niche.answered;
-    sizeUnans = niche.unanswered;
+    totalAns = niche.answered;
+    totalUnans = niche.unanswered;
   });
 
-  ansRef.onSnapshot(querySnapshot => {
+  ansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pagUnit).onSnapshot(querySnapshot => {
     let docs = [];
     querySnapshot.forEach(doc => {
       docs.push({...doc.data(), id: doc.id});
     });
 
     answered = [...docs];
+    sizeAns = answered.length + extraAns.length;
   });
 
 
-  unansRef.onSnapshot(querySnapshot => {
+  unansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pagUnit).onSnapshot(querySnapshot => {
     let docs = [];
     querySnapshot.forEach(doc => {
       docs.push({...doc.data(), id: doc.id});
     });
 
     unanswered = [...docs];
+    sizeUnans = unanswered.length + extraUnans.length;
   });
 
-  function showExtra() {
+  async function showExtraAns() {
+    const lastAns = extraAns ? extraAns[extraAns - 1] : answered[answered - 1];
+    extraAns = await ansRef
+      .orderBy('usefulness.ranking', 'desc')
+      .orderBy('createdAt', 'desc')
+      .startAt(lastAns.usefulness.ranking, lastAns.createdAt)
+      .limit(pagUnit)
+      .get();
+  }
+
+  async function showExtraUnans() {
+    const lastUnans = extraUnans.length > 0 ? extraUnans[extraUnans - 1] : unanswered[unanswered - 1];
+    extraUnans = await unansRef
+      .orderBy('usefulness.ranking', 'desc')
+      .orderBy('createdAt', 'desc')
+      .startAt(lastUnans.usefulness.ranking, lastUnans.createdAt)
+      .limit(pagUnit)
+      .get();
   }
 </script>
 
@@ -55,20 +78,20 @@
   <Title></Title>
   <section class="section pt-0">
     <div class="container">
-      <QuestionsHeader numAns={sizeAns} numUnans={sizeUnans}></QuestionsHeader>
+      <QuestionsHeader numAns={totalAns} numUnans={totalUnans}></QuestionsHeader>
       <div class="columns">
         <div class="column">
           {#if $isShowingAnswered}
             <Questions questions={answered}></Questions>
-            <Questions questions={extra_ans}></Questions>
-            {#if sizeAns > 10}
-            <button class="button is-fullwidth" on:click={showExtra}>Mostrar m&aacute;s preguntas</button>
+            <Questions questions={extraAns}></Questions>
+            {#if sizeAns < totalAns}
+              <button class="button is-fullwidth" on:click={showExtraAns}>Mostrar m&aacute;s preguntas</button>
             {/if}
           {:else}
             <Questions questions={unanswered}></Questions>
-            <Questions questions={extra_unans}></Questions>
-            {#if sizeUnans > 10}
-            <button class="button is-fullwidth" on:click={showExtra}>Mostrar m&aacute;s preguntas</button>
+            <Questions questions={extraUnans}></Questions>
+            {#if sizeUnans < totalUnans}
+              <button class="button is-fullwidth" on:click={showExtraUnans}>Mostrar m&aacute;s preguntas</button>
             {/if}
           {/if}
         </div>

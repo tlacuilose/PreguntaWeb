@@ -38,7 +38,7 @@
       <p class="has-text-justified">
         {answer.answer}
         <br>
-        <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Me sirvi&oacute;</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
+        <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
       </p>
     </div>
   </div>

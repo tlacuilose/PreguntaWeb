@@ -14,8 +14,9 @@
     await fs.collection('questions').doc().set({
       ...question,
       createdAt: Date.now(),
-      niche: "estudia-en-casa",
+      niche: 'estudia-en-casa',
       times_ans: 0,
+      answered: false,
       usefulness: {
         ranking: 0,
         last_updated: 0

@@ -62,7 +62,7 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Me sirvi&oacute;</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
+      <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
     </div>
     {#if answers && showsAns}
       {#each answers as answer}
