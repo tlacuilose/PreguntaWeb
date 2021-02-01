@@ -6,7 +6,7 @@
   import NewReport from './NewReport.svelte';
 
   import { fs } from './firebase';
-  import { showsNewReport, showsNewAns, reportItemID, reportItemType, reportItemLegend } from './stores';
+  import { reportItemID, reportItemType, reportItemLegend } from './stores';
 
   export let question;
 
@@ -14,6 +14,9 @@
 
   const limitShown = 10;
   let showsAns = false;
+
+  let showsNewAns = false;
+  let showsNewReport = false;
 
   let answers = [];
 
@@ -45,13 +48,13 @@
   }
 
   function showNewAns() {
-    showsNewAns.set(true);
-    showsNewReport.set(false);
+    showsNewAns = true;
+    showsNewReport = false;
   }
 
   function callNewReport() {
-    showsNewReport.set(true);
-    showsNewAns.set(false);
+    showsNewReport = true;
+    showsNewAns = false;
     reportItemID.set(question.id);
     reportItemType.set('question');
     reportItemLegend.set('pregunta');
@@ -81,11 +84,11 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a on:click={callNewReport} disabled={$showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
+      <small><a on:click={callNewReport} disabled={showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
     </div>
     {#if answers && showsAns}
       {#each answers as answer}
-        <Answer question_id={question.id} answer={answer}></Answer>
+        <Answer question_id={question.id} answer={answer} bind:showsNewReport={showsNewReport} bind:showsNewAns={showsNewAns}></Answer>
       {/each}
     {/if}
     <div class="level mt-4">
@@ -98,21 +101,21 @@
       {:else}
         <div class="level-left" disabled=true>Sin respuestas</div>
       {/if}
-      <button class="button is-link level-right" disabled={$showsNewAns} on:click={showNewAns}>Responder</button>
+      <button class="button is-link level-right" disabled={showsNewAns} on:click={showNewAns}>Responder</button>
     </div>
   </div>
 </article>
-{#if $showsNewAns}
+{#if showsNewAns}
   <div class="content" 
     in:slide="{{delay: 0, duration: 50}}"
     out:slide="{{delay: 300, duration: 50}}">
-    <NewAnswer bind:isShown={$showsNewAns} question={question}></NewAnswer>
+    <NewAnswer bind:isShown={showsNewAns} question={question}></NewAnswer>
   </div>
 {/if}
-{#if $showsNewReport}
+{#if showsNewReport}
   <div class="content" 
     in:slide="{{delay: 0, duration: 50}}"
     out:slide="{{delay: 300, duration: 50}}">
-    <NewReport></NewReport>
+    <NewReport bind:isShown={showsNewReport}></NewReport>
   </div>
 {/if}

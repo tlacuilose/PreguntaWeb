@@ -2,7 +2,9 @@
   import { slide } from 'svelte/transition';
 
   import { fs } from './firebase';
-  import { showsNewReport, reportItemID, reportItemType, reportItemLegend } from './stores';
+  import { reportItemID, reportItemType, reportItemLegend } from './stores';
+
+  export let isShown;
 
   let report = {
     reason: ""
@@ -20,7 +22,7 @@
   function handleSubmit() {
     addReport();
     report = { reason: '' };
-    showsNewReport.set(false);
+    isShown = false;
   }
 </script>
 
@@ -36,7 +38,7 @@
     <div class="field">
       <div class="control">
         <div class="buttons is-right">
-          <button class="button is-light" on:click={() => showsNewReport.set(false)}>Cancelar</button>
+          <button class="button is-light" on:click={() => isShown = false}>Cancelar</button>
           <button class="button is-danger is-light" disabled={report.reason.length === 0} on:click={handleSubmit}>Reportar {$reportItemLegend}</button>
         </div>
       </div>

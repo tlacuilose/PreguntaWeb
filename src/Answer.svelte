@@ -3,8 +3,10 @@
   import { quartOut } from 'svelte/easing';
 
   import { fs } from './firebase';
-  import { showsNewReport, showsNewAns, reportItemID, reportItemType, reportItemLegend } from './stores';
+  import { reportItemID, reportItemType, reportItemLegend } from './stores';
 
+  export let showsNewReport;
+  export let showsNewAns;
   export let question_id;
   export let answer;
 
@@ -16,9 +18,10 @@
   }
 
   function callNewReport() {
-    showsNewReport.set(true);
-    showsNewAns.set(false);
-    reportItemID.set(answer.id);
+    showsNewReport = true;
+    showsNewAns = false;
+    const compID = ''.concat('quest:', question_id, 'ans:', answer.id);
+    reportItemID.set(compID);
     reportItemType.set('answer');
     reportItemLegend.set('respuesta');
   }
@@ -47,7 +50,7 @@
       <p class="has-text-justified">
         {answer.answer}
         <br>
-        <small><a on:click={callNewReport} disabled={$showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
+        <small><a on:click={callNewReport} disabled={showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
       </p>
     </div>
   </div>
