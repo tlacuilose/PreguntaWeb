@@ -1,5 +1,5 @@
 <script>
-  import { fade } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
   import { quartIn } from 'svelte/easing';
   import Answer from './Answer.svelte';
   import NewAnswer from './NewAnswer.svelte';
@@ -103,8 +103,16 @@
   </div>
 </article>
 {#if $showsNewAns}
-  <NewAnswer bind:isShown={$showsNewAns} question={question}></NewAnswer>
+  <div class="content" 
+    in:slide="{{delay: 0, duration: 50}}"
+    out:slide="{{delay: 300, duration: 50}}">
+    <NewAnswer bind:isShown={$showsNewAns} question={question}></NewAnswer>
+  </div>
 {/if}
 {#if $showsNewReport}
-  <NewReport></NewReport>
+  <div class="content" 
+    in:slide="{{delay: 0, duration: 50}}"
+    out:slide="{{delay: 300, duration: 50}}">
+    <NewReport></NewReport>
+  </div>
 {/if}

@@ -46,7 +46,9 @@
     isShown = false;
   }
 </script>
-<article class="media" transition:slide>
+<article class="media" 
+  in:slide="{{delay: 50, duration: 300}}"
+  out:slide="{{delay: 0, duration: 300}}">
   <div class="media-content">
     <div class="field">
       <p class="control">

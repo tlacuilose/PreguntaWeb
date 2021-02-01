@@ -43,7 +43,7 @@
   }
 </script>
   
-<div class="content" transition:slide>
+<div class="content" transition:slide="{{duration: 300}}">
   <div class="field">
     <label class="label">Pregunta</label>
     <div class="control">
