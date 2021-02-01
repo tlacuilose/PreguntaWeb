@@ -3,6 +3,7 @@
   import { quartOut } from 'svelte/easing';
 
   import { fs } from './firebase';
+  import { showsNewReport, showsNewAns, reportItemID, reportItemType, reportItemLegend } from './stores';
 
   export let question_id;
   export let answer;
@@ -12,6 +13,14 @@
   function formatDate(numDate) {
     let options = { year: 'numeric', month: '2-digit', day: '2-digit'};
     return new Intl.DateTimeFormat('es', options).format(numDate);
+  }
+
+  function callNewReport() {
+    showsNewReport.set(true);
+    showsNewAns.set(false);
+    reportItemID.set(answer.id);
+    reportItemType.set('answer');
+    reportItemLegend.set('respuesta');
   }
 
   function handleUseful() {
@@ -38,7 +47,7 @@
       <p class="has-text-justified">
         {answer.answer}
         <br>
-        <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
+        <small><a on:click={callNewReport} disabled={$showsNewReport}>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
       </p>
     </div>
   </div>

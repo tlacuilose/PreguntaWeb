@@ -55,7 +55,7 @@
     <div class="control">
       <div class="buttons is-right">
         <button class="button is-primary" on:click={() => isShown = false}>Cancelar</button>
-        <button type="submit" class="button is-link">Enviar pregunta</button>
+        <button type="submit" class="button is-link" disabled={question.question.length === 0}>Enviar pregunta</button>
       </div>
     </div>
   </div>
