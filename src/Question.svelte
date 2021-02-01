@@ -27,7 +27,7 @@
       .collection('answers').onSnapshot(querySnapshot => {
         let docs = [];
         querySnapshot.forEach(doc => {
-          docs.push(doc.data());
+          docs.push({...doc.data(), id: doc.id});
         });
 
         answers = [...docs];
@@ -62,7 +62,7 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a>Reportar</a> · Preguntada en  {readableDate} · <a on:click={handleUseful}>Me sirvio</a></small>
+      <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Me sirvi&oacute;</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
     </div>
     {#if answers && showsAns}
       {#each answers as answer}

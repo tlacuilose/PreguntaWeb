@@ -1,17 +1,19 @@
 <script>
   import NewQuestion from './NewQuestion.svelte';
+
+  import { isShowingAnswered } from './stores';
+
   export let numAns;
   export let numUnans;
-  export let isShowingAnswered;
 
   let isShowingNewQuestion;
 
   function showAnswered() {
-    isShowingAnswered = true;
+    isShowingAnswered.set(true);
   }
 
   function hideAnswered() {
-    isShowingAnswered = false;
+    isShowingAnswered.set(false);
   }
 </script>
   
@@ -22,22 +24,22 @@
     {/if}
     <div class="tabs is-boxed">
       <ul>
-        <li class:is-active={isShowingAnswered}>
+        <li class:is-active={$isShowingAnswered}>
           <a on:click={showAnswered}>
             <span>
               Respondidas
             </span>
-            <span class="tag {isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
+            <span class="tag {$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
               {numAns}
             </span>
           </a>
         </li>
-        <li class:is-active={!isShowingAnswered}>
+        <li class:is-active={!$isShowingAnswered}>
           <a on:click={hideAnswered}>
             <span>
               No respondidas
             </span>
-            <span class="tag {!isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
+            <span class="tag {!$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
               {numUnans}
             </span>
           </a>

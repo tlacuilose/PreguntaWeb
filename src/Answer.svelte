@@ -7,6 +7,13 @@
   export let question_id;
   export let answer;
 
+  $: readableDate = formatDate(answer.createdAt);
+
+  function formatDate(numDate) {
+    let options = { year: 'numeric', month: '2-digit', day: '2-digit'};
+    return new Intl.DateTimeFormat('es', options).format(numDate);
+  }
+
   function handleUseful() {
     let one_hour = 60 * 60 * 1000;
     if (Date.now() - answer.usefulness.last_updated > one_hour) {
@@ -31,7 +38,7 @@
       <p class="has-text-justified">
         {answer.answer}
         <br>
-        <small><a>Reportar</a> · Respondida en {answer.date} · <a on:click={handleUseful}>Me sirvio</a></small>
+        <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Me sirvi&oacute;</a> · {answer.usefulness.ranking > 0 ? answer.usefulness.ranking : ""}</small>
       </p>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script>
   import { slide } from 'svelte/transition';
 
-  import { fs } from './firebase';
+  import { fs, fieldValue } from './firebase';
 
   export let isShown;
 
@@ -14,6 +14,7 @@
     await fs.collection('questions').doc().set({
       ...question,
       createdAt: Date.now(),
+      niche: "estudia-en-casa",
       times_ans: 0,
       usefulness: {
         ranking: 0,
@@ -22,8 +23,14 @@
     });
   }
 
+  async function updateNiche() {
+    await fs.collection('niches').doc('estudia-en-casa')
+      .update('unanswered', fieldValue.increment(1));
+  }
+
   function handleSubmit() {
     addQuestion();
+    updateNiche();
     question = {question: '', description: ''};
     isShown = false;
   }
