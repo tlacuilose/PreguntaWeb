@@ -49,7 +49,7 @@
     <div class="control">
       <input class="input" type="text" placeholder="Escribe tu pregunta..." bind:value={newquestion}/>
     </div>
-    <p class="help">Recuerda que las preguntas no son academicas, si no tecnicas.</p>
+    <p class="help">¿Tienes una duda sobre estudiar en casa? Compartela!</p>
   </div>
   <div class="field">
     <label class="label">Descripci&oacute;n</label>
