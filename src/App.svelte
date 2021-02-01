@@ -50,23 +50,39 @@
   });
 
   async function showExtraAns() {
-    const lastAns = extraAns ? extraAns[extraAns - 1] : answered[answered - 1];
-    extraAns = await ansRef
+    const lastAns = extraAns ? extraAns[extraAns.length - 1] : answered[answered.length - 1];
+    let docs = [];
+    const snapshot = await ansRef
       .orderBy('usefulness.ranking', 'desc')
       .orderBy('createdAt', 'desc')
-      .startAt(lastAns.usefulness.ranking, lastAns.createdAt)
+      .startAfter(lastAns.usefulness.ranking, lastAns.createdAt)
       .limit(pagUnit)
       .get();
+
+    snapshot.forEach(doc => {
+      docs.push({...doc.data(), id: doc.id});
+    });
+
+    extraAns = [...extraAns, ...docs];
+    sizeAns = answered.length + extraAns.length;
   }
 
   async function showExtraUnans() {
-    const lastUnans = extraUnans.length > 0 ? extraUnans[extraUnans - 1] : unanswered[unanswered - 1];
-    extraUnans = await unansRef
+    const lastUnans = extraUnans.length > 0 ? extraUnans[extraUnans.length - 1] : unanswered[unanswered.length - 1];
+    let docs = [];
+    const snapshot = await unansRef
       .orderBy('usefulness.ranking', 'desc')
       .orderBy('createdAt', 'desc')
-      .startAt(lastUnans.usefulness.ranking, lastUnans.createdAt)
+      .startAfter(lastUnans.usefulness.ranking, lastUnans.createdAt)
       .limit(pagUnit)
       .get();
+
+    snapshot.forEach(doc => {
+      docs.push({...doc.data(), id: doc.id});
+    });
+
+    extraUnans = [...extraUnans, ...docs];
+    sizeUnans = unanswered.length + extraUnans.length;
   }
 </script>
 
