@@ -25,7 +25,7 @@
 </script>
 
 <article class="media" transition:slide>
-  <form class="media-content" on:submit|preventDefault={handleSubmit}>
+  <div class="media-content">
     <div class="field">
       <p class="control">
         <textarea class="textarea" placeholder="Agrega la razón del reporte..." bind:value={report.reason}></textarea>
@@ -35,9 +35,9 @@
       <div class="control">
         <div class="buttons is-right">
           <button class="button is-light" on:click={() => showsNewReport.set(false)}>Cancelar</button>
-          <button type="submit" class="button is-danger is-light" disabled={report.reason.length === 0}>Reportar {$reportItemLegend}</button>
+          <button class="button is-danger is-light" disabled={report.reason.length === 0} on:click={handleSubmit}>Reportar {$reportItemLegend}</button>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </article>

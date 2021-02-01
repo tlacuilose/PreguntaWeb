@@ -47,7 +47,7 @@
   }
 </script>
 <article class="media" transition:slide>
-  <form class="media-content" on:submit|preventDefault={handleSubmit}>
+  <div class="media-content">
     <div class="field">
       <p class="control">
         <textarea class="textarea" placeholder="Agrega una respuesta..." bind:value={answer.answer}></textarea>
@@ -57,9 +57,9 @@
       <div class="control">
         <div class="buttons is-right">
           <button class="button is-primary" on:click={() => isShown = false}>Cancelar</button>
-          <button type="submit" class="button is-link" disabled={answer.answer.length === 0}>Enviar respuesta</button>
+          <button class="button is-link" disabled={answer.answer.length === 0} on:click={handleSubmit}>Enviar respuesta</button>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </article>

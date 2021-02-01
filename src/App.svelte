@@ -1,5 +1,6 @@
 <script>
   import Title from './Title.svelte';
+  import NewQuestion from './NewQuestion.svelte';
   import QuestionsHeader from './QuestionsHeader.svelte';
   import Questions from './Questions.svelte';
   import InfoMenu from './InfoMenu.svelte';
@@ -19,6 +20,9 @@
   let unanswered = [];
   let numUnansPage = 1;
   let totalUnans = 0;
+
+  let newquestion = "";
+  let isShowingNewQuestion = false;
 
   fs.collection('niches').doc('estudia-en-casa').onSnapshot(docSnapshot => {
     let niche = docSnapshot.data();
@@ -77,12 +81,17 @@
 </svelte:head>
 
 <main>
-  <Title></Title>
+  <Title bind:showsNewQuestion={isShowingNewQuestion} bind:newquestion={newquestion}></Title>
   <section class="section pt-0">
     <div class="container">
-      <QuestionsHeader numAns={totalAns} numUnans={totalUnans}></QuestionsHeader>
       <div class="columns">
         <div class="column">
+          {#if isShowingNewQuestion}
+            <div class="content">
+              <NewQuestion bind:isShown={isShowingNewQuestion} bind:newquestion={newquestion}></NewQuestion>
+            </div>
+          {/if}
+          <QuestionsHeader numAns={totalAns} numUnans={totalUnans}></QuestionsHeader>
           {#if $isShowingAnswered}
             <Questions questions={answered}></Questions>
             {#if answered.length < totalAns}
