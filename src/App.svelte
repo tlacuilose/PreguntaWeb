@@ -1,40 +1,75 @@
 <script>
   import Title from './Title.svelte';
-  import NewQuestion from './NewQuestion.svelte';
   import QuestionsHeader from './QuestionsHeader.svelte';
   import Questions from './Questions.svelte';
+  import InfoMenu from './InfoMenu.svelte';
 
+  import { isShowingAnswered } from './stores';
   import { fs } from './firebase';
 
-  let isShowingAnswered = true;
+  const pageUnit = 10;
 
-  let questions = []
+  const ansRef = fs.collection('questions').where('answered', '==', true);
+  const unansRef = fs.collection('questions').where('answered', '==', false);
 
-  fs.collection('questions').onSnapshot(querySnapshot => {
+  let answered = [];
+  let numAnsPage = 1;
+  let totalAns = 0;
+
+  let unanswered = [];
+  let numUnansPage = 1;
+  let totalUnans = 0;
+
+  fs.collection('niches').doc('estudia-en-casa').onSnapshot(docSnapshot => {
+    let niche = docSnapshot.data();
+    totalAns = niche.answered;
+    totalUnans = niche.unanswered;
+  });
+
+  let subAns = ansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pageUnit).onSnapshot(querySnapshot => {
     let docs = [];
     querySnapshot.forEach(doc => {
       docs.push({...doc.data(), id: doc.id});
     });
 
-    questions = [...docs];
-    console.log(questions);
+    answered = [...docs];
   });
-  
-  let unquestions = [
-    {
-      date: '12/02/2020',
-      question: 'Esta no respondida o si?',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ille enim occurrentia nescio quae comminiscebatur; Ad eos igitur converte te, quaeso. Non quam nostram quidem, inquit Pomponius iocans; Sedulo, inquam, faciam. Quamquam id quidem licebit iis existimare, qui legerint. Septem autem illi non suo, sed populorum suffragio omnium nominati sunt.',
-    }, {
-      date: '12/04/2021',
-      question: 'Are we here just to eat no resp?',
-      description: 'Idemque diviserunt naturam hominis in animum et corpus. Et non ex maxima parte de tota iudicabis? Si mala non sunt, iacet omnis ratio Peripateticorum. Quid, quod res alia tota est? Quae duo sunt, unum fa',
-    }, {
-      date: '03/04/2021',
-      question: 'This questions has non answers.',
-      description: ''
-    }
-  ];
+
+
+  let subUnans = unansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pageUnit).onSnapshot(querySnapshot => {
+    let docs = [];
+    querySnapshot.forEach(doc => {
+      docs.push({...doc.data(), id: doc.id});
+    });
+
+    unanswered = [...docs];
+  });
+
+  async function showExtraAns() {
+    subAns();
+    numAnsPage += 1;
+    subAns = ansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pageUnit * numAnsPage).onSnapshot(querySnapshot => {
+      let docs = [];
+      querySnapshot.forEach(doc => {
+        docs.push({...doc.data(), id: doc.id});
+      });
+
+      answered = [...docs];
+    });
+  }
+
+  async function showExtraUnans() {
+    subUnans();
+    numUnansPage += 1;
+    subUnans = unansRef.orderBy('usefulness.ranking', 'desc').orderBy('createdAt', 'desc').limit(pageUnit * numUnansPage).onSnapshot(querySnapshot => {
+      let docs = [];
+      querySnapshot.forEach(doc => {
+        docs.push({...doc.data(), id: doc.id});
+      });
+
+      unanswered = [...docs];
+    });
+  }
 </script>
 
 <svelte:head>
@@ -45,12 +80,25 @@
   <Title></Title>
   <section class="section pt-0">
     <div class="container">
-      <QuestionsHeader numAns={questions.length} numUnans={unquestions.length} bind:isShowingAnswered={isShowingAnswered}></QuestionsHeader>
-      {#if isShowingAnswered}
-        <Questions questions={questions}></Questions>
-      {:else}
-        <Questions questions={unquestions}></Questions>
-      {/if}
+      <QuestionsHeader numAns={totalAns} numUnans={totalUnans}></QuestionsHeader>
+      <div class="columns">
+        <div class="column">
+          {#if $isShowingAnswered}
+            <Questions questions={answered}></Questions>
+            {#if answered.length < totalAns}
+              <button class="button is-fullwidth" on:click={showExtraAns}>Mostrar m&aacute;s preguntas</button>
+            {/if}
+          {:else}
+            <Questions questions={unanswered}></Questions>
+            {#if unanswered.length < totalUnans}
+              <button class="button is-fullwidth" on:click={showExtraUnans}>Mostrar m&aacute;s preguntas</button>
+            {/if}
+          {/if}
+        </div>
+        <div class="column is-one-fifth">
+          <InfoMenu></InfoMenu>
+        </div>
+      </div>
     </div>
   </section>
 </main>

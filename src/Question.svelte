@@ -2,25 +2,63 @@
   import { fade } from 'svelte/transition';
   import { quartIn } from 'svelte/easing';
   import Answer from './Answer.svelte';
-  import NoAnswers from './NoAnswers.svelte';
   import NewAnswer from './NewAnswer.svelte';
+
+  import { fs } from './firebase';
 
   export let question;
 
-  const maxShown = 2; // Two answers shown;
-  const limitMax = 6; // Up to 10 answers;
-  let shownAns = maxShown;
-  let showsNew = false;
+  $: readableDate = formatDate(question.createdAt);
 
-  function showMoreAns() {
-    let amountAns = question.answers.length > limitMax ? limitMax : question.answers.length;
-    shownAns = amountAns;
+  const limitShown = 10;
+  var showsAns = false;
+
+  var showsNewAns = false;
+
+  let answers = [];
+
+  function formatDate(numDate) {
+    let options = { year: 'numeric', month: '2-digit', day: '2-digit'};
+    return new Intl.DateTimeFormat('es', options).format(numDate);
   }
 
-  function hideMoreAns() {
-    shownAns = maxShown;
+  function showAnswers() {
+    showsAns = true;
+    if (answers) {
+      fs.collection('questions').doc(question.id)
+        .collection('answers')
+        .orderBy('usefulness.ranking', 'desc')
+        .limit(limitShown)
+        .onSnapshot(querySnapshot => {
+          let docs = [];
+          querySnapshot.forEach(doc => {
+            docs.push({...doc.data(), id: doc.id});
+          });
+
+          answers = [...docs];
+      });
+    }
   }
 
+  function hideAnswers() {
+    showsAns = false;
+  }
+
+  function handleUseful() {
+    let one_hour = 60 * 60 * 1000;
+    if (Date.now() - question.usefulness.last_updated > one_hour) {
+      updateRanking();
+    }
+  }
+
+  async function updateRanking() {
+    await fs.collection('questions').doc(question.id).update({
+      usefulness: {
+        ranking: question.usefulness.ranking + 1,
+        last_updated: Date.now()
+      }
+    });
+  }
 </script>
 
 <article class="media box" transition:fade={{duration: 300, easing: quartIn}}>
@@ -30,27 +68,27 @@
       <p class="has-text-justified">
         {question.description}
       </p>
-      <small><a>Reportar</a> · Preguntada en {question.date} · <a>Me sirvio</a></small>
+      <small><a>Reportar</a> · {readableDate} · <a on:click={handleUseful}>Es &uacute;til</a> · {question.usefulness.ranking > 0 ? question.usefulness.ranking : ""}</small>
     </div>
-    {#if question.answers}
-      {#each question.answers.slice(0, shownAns) as answer}
-        <Answer answer={answer}></Answer>
+    {#if answers && showsAns}
+      {#each answers as answer}
+        <Answer question_id={question.id} answer={answer}></Answer>
       {/each}
-    {:else}
-      <NoAnswers></NoAnswers>
     {/if}
     <div class="level mt-4">
-      {#if question.answers && question.answers.length > shownAns && shownAns == maxShown}
-        <button class="button is-text level-left" on:click={showMoreAns}>M&aacute;s respuestas ({question.answers.length < limitMax ? question.answers.length - maxShown : limitMax - maxShown})</button>
-      {:else if shownAns > maxShown}
-        <button class="button is-text level-left" on:click={hideMoreAns}>Mostrar menos</button>
+      {#if question.times_ans > 0}
+        {#if showsAns}
+          <button class="button is-text level-left" on:click={hideAnswers}>Mostrar menos</button>
+        {:else}
+          <button class="button is-text level-left" on:click={showAnswers}>Mostrar respuestas ({question.times_ans})</button>
+        {/if}
       {:else}
-        <div class="level-right"></div>
+        <div class="level-left" disabled=true>Sin respuestas</div>
       {/if}
-      <button class="button is-link level-right" disabled={showsNew} on:click={() => showsNew = true}>Responder</button>
+      <button class="button is-link level-right" disabled={showsNewAns} on:click={() => showsNewAns = true}>Responder</button>
     </div>
   </div>
 </article>
-{#if showsNew}
-  <NewAnswer bind:isShown={showsNew}></NewAnswer>
+{#if showsNewAns}
+  <NewAnswer bind:isShown={showsNewAns} question={question}></NewAnswer>
 {/if}

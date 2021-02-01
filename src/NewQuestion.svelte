@@ -1,24 +1,37 @@
 <script>
   import { slide } from 'svelte/transition';
 
-  import { fs } from './firebase';
+  import { fs, fieldValue } from './firebase';
 
   export let isShown;
 
   let question = {
     question: "",
-    description: ""
+    description: "",
   };
 
   async function addQuestion() {
     await fs.collection('questions').doc().set({
       ...question,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      niche: 'estudia-en-casa',
+      times_ans: 0,
+      answered: false,
+      usefulness: {
+        ranking: 0,
+        last_updated: 0
+      }
     });
+  }
+
+  async function updateNiche() {
+    await fs.collection('niches').doc('estudia-en-casa')
+      .update('unanswered', fieldValue.increment(1));
   }
 
   function handleSubmit() {
     addQuestion();
+    updateNiche();
     question = {question: '', description: ''};
     isShown = false;
   }
@@ -42,7 +55,7 @@
     <div class="control">
       <div class="buttons is-right">
         <button class="button is-primary" on:click={() => isShown = false}>Cancelar</button>
-        <button class="button is-link">Enviar pregunta</button>
+        <button type="submit" class="button is-link">Enviar pregunta</button>
       </div>
     </div>
   </div>
