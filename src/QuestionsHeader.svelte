@@ -18,21 +18,21 @@
     <ul>
       <li class:is-active={$isShowingAnswered}>
         <a on:click={showAnswered}>
+          <span class="tag {$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded mr-2">
+            {numAns}
+          </span>
           <span>
             Respondidas
-          </span>
-          <span class="tag {$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
-            {numAns}
           </span>
         </a>
       </li>
       <li class:is-active={!$isShowingAnswered}>
         <a on:click={hideAnswered}>
+          <span class="tag {!$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded mr-2">
+            {numUnans}
+          </span>
           <span>
             No respondidas
-          </span>
-          <span class="tag {!$isShowingAnswered ? 'is-primary' : 'is-light'} is-rounded ml-2">
-            {numUnans}
           </span>
         </a>
       </li>
