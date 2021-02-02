@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+$acqua: #9de6d5;
+$bronze: #206067;
+// Modify bluma variables
+$primary: $acqua;
+$link: $bronze;
+
+$button-text-color: $bronze;
+
+// Import whats needed from Bulma
+
+@import "../node_modules/bulma/bulma.sass";
+
+// My styles
+
+
+#title-section {
+  background: linear-gradient($primary 0%, white 95%);
+}
